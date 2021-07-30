@@ -24,14 +24,6 @@ else
     mkdir $PGADMIN_DIR
 fi
 
-ODOO_ADDONS_DIR=${VOLUMES_DIR}/odoo_addons
-
-if [ -d "$ODOO_ADDONS_DIR" ]; then
-    echo "the $ODOO_ADDONS_DIR already exist"
-else
-    mkdir $ODOO_ADDONS_DIR
-fi
-
 ODOO_CONFIG_DIR=${VOLUMES_DIR}/odoo_config
 
 if [ -d "$ODOO_CONFIG_DIR" ]; then
@@ -48,12 +40,20 @@ else
     mkdir $ODOO_DATA_DIR
 fi
 
+ODOO_CORE_DIR=${VOLUMES_DIR}/odoo_core
+
+if [ -d "$ODOO_CORE_DIR" ]; then
+    echo "the $ODOO_CORE_DIR already exist"
+else
+    mkdir $ODOO_CORE_DIR
+fi
+
 docker volume create --driver local --opt type=none --opt device=$POSTGRES_DIR --opt o=bind postgres_data
 
 docker volume create --driver local --opt type=none --opt device=$PGADMIN_DIR --opt o=bind pgadmin_data
 
-docker volume create --driver local --opt type=none --opt device=$ODOO_ADDONS_DIR --opt o=bind odoo_addons
-
 docker volume create --driver local --opt type=none --opt device=$ODOO_CONFIG_DIR --opt o=bind odoo_config
 
 docker volume create --driver local --opt type=none --opt device=$ODOO_DATA_DIR --opt o=bind odoo_data
+
+docker volume create --driver local --opt type=none --opt device=$ODOO_CORE_DIR --opt o=bind odoo_core
